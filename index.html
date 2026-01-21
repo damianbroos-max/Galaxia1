@@ -40,6 +40,10 @@
             opacity: 0;
             transition: opacity 2s ease;
             text-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+    	    transition: opacity 2s ease, text-shadow 1.5s ease-in-out;
+		}
+		.glow-active {
+			text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff1493, 0 0 40px #ff1493;
         }
 
         #music-control {
@@ -201,20 +205,49 @@
     });
 
     // 7. Animación
-    function animate() {
-        requestAnimationFrame(animate);
-        if (!scene || !camera || !sprites) return;
-        
-        lerpFactor += (targetLerp - lerpFactor) * 0.05;
+		function animate() {
+    requestAnimationFrame(animate);
+    if (!scene || !camera || !sprites) return;
+    
+    const time = Date.now() * 0.001;
+    lerpFactor += (targetLerp - lerpFactor) * 0.05;
+    const rotationSpeed = 0.002 * (1 - lerpFactor); 
+    
+    // Calcular el pulso de brillo (solo cuando el nombre está formado)
+    // El brillo oscilará entre 0.7 y 1.2
+    const pulse = 0.9 + Math.sin(time * 2) * 0.25;
 
-        sprites.children.forEach((sprite) => {
-            sprite.position.lerpVectors(sprite.userData.origin, sprite.userData.target, lerpFactor);
-            if (lerpFactor < 0.01) {
-                sprite.position.applyAxisAngle(new THREE.Vector3(0, 0, 1), 0.0005);
-                sprite.userData.origin.copy(sprite.position);
-            }
-        });
-        renderer.render(scene, camera);
+    sprites.children.forEach((sprite, i) => {
+        // ... (Tu lógica anterior de rotación y lerp) ...
+        sprite.position.lerpVectors(sprite.userData.origin, sprite.userData.target, lerpFactor);
+
+        // APLICAR RESPLANDOR PULSANTE
+        if (lerpFactor > 0.9) {
+            // Aumentamos la opacidad y el brillo cuando se forma el nombre
+            sprite.material.opacity = pulse;
+            // Un pequeño aumento de tamaño rítmico para que "viva"
+            const pulseScale = 1 + Math.sin(time * 2 + i) * 0.05;
+            sprite.scale.set(
+                sprite.userData.baseSize * pulseScale, 
+                sprite.userData.baseSize * pulseScale, 
+                1
+            );
+        } else {
+            sprite.material.opacity = 0.8;
+        }
+
+        sprite.lookAt(camera.position);
+    });
+
+    // Control del brillo en el texto del mensaje
+    const msg = document.getElementById('message');
+    if (targetLerp > 0.9) {
+        msg.classList.add('glow-active');
+    } else {
+        msg.classList.remove('glow-active');
+    }
+
+    renderer.render(scene, camera);
     }
     animate();
 
@@ -240,6 +273,7 @@
 </body>
 
 </html>
+
 
 
 

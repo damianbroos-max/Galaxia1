@@ -94,7 +94,7 @@
     import * as THREE from 'three';
 
     // --- CONFIGURACIÓN GLOBAL ---
-    const totalFotos = 1; // Ajusta este número a tus fotos reales
+    const totalFotos = 2; // Ajusta este número a tus fotos reales
     const PARTICLE_COUNT = 500; 
     let lerpFactor = 0;
     let targetLerp = 0;
@@ -113,7 +113,7 @@
     const loader = new THREE.TextureLoader();
     const texturas = [];
     for (let i = 1; i <= totalFotos; i++) {
-        texturas.push(loader.load(fotos/${i}.jpg));
+        texturas.push(loader.load(`fotos/${i}.jpg`));
     }
 
     // 3. Puntos del nombre
@@ -238,4 +238,5 @@
     }
     </script>
 </body>
+
 </html>

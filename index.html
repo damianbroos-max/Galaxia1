@@ -95,7 +95,7 @@
 
     // --- CONFIGURACIÓN GLOBAL ---
     const totalFotos = 11; // Ajusta este número a tus fotos reales
-    const PARTICLE_COUNT = 500; 
+    const PARTICLE_COUNT = 800; 
     let lerpFactor = 0;
     let targetLerp = 0;
 
@@ -129,7 +129,7 @@
 
         const imageData = ctx.getImageData(0, 0, 400, 200).data;
         const points = [];
-        const spacing = isMobile ? 1.0 : 5.0; // Ajuste responsivo del tamaño del nombre
+        const spacing = isMobile ? 3.5 : 5.0; // Ajuste responsivo del tamaño del nombre
 
         for (let y = 0; y < 200; y += 4) {
             for (let x = 0; x < 400; x += 4) {
@@ -240,5 +240,6 @@
 </body>
 
 </html>
+
 
 

@@ -127,16 +127,17 @@
         ctx.fillStyle = 'white';
         ctx.font = 'bold 70px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText(text, 200, 100);
+		ctx.setTransform(0.8, 0, 0, 1, 0, 0);
+        ctx.fillText(text, 200 / 0.8, 100);
 
         const imageData = ctx.getImageData(0, 0, 400, 200).data;
         const points = [];
-        const spacing = isMobile ? 4.5 : 5.0; // Ajuste responsivo del tamaño del nombre
+        const spacing = isMobile ? 3.5 : 4.0; // Ajuste responsivo del tamaño del nombre
 
         for (let y = 0; y < 200; y += 4) {
             for (let x = 0; x < 400; x += 4) {
                 if (imageData[(y * 400 + x) * 4] > 128) {
-                    points.push(new THREE.Vector3((x - 200) * spacing, (100 - y) * spacing, 0));
+                    points.push(new THREE.Vector3(((x - 200) * spacing) * 0.8, (100 - y) * spacing, 0));
                 }
             }
         }
@@ -274,6 +275,7 @@
 </body>
 
 </html>
+
 
 
 
